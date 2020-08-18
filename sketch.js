@@ -1,10 +1,10 @@
 var snake;
-var rez=20;
+var rez=30;
 var w,h;
 var food;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 600);
   w = floor(width/rez);
   h = floor(height/rez);
   snake = new Snake();
