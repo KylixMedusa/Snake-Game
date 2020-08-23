@@ -7,7 +7,9 @@ class Snake{
     this.ydir = 0;
   }
   checkend(){
-    let head = this.body[this.len-1].copy();
+    let bodycopy = JSON.parse(JSON.stringify(this.body));
+    // console.log(bodycopy[0]);
+    let head = bodycopy[this.len-1];
     if(head.x>w-1 || head.x<0 || head.y<0 || head.y>h-1)
       return true;
     for(var i=0;i<this.len-1;i++){
@@ -17,7 +19,9 @@ class Snake{
     return false;
   }
   update(){
-    let head = this.body[this.len-1].copy();
+    let bodycopy = JSON.parse(JSON.stringify(this.body));
+    // console.log(bodycopy[0]);
+    let head = bodycopy[this.len-1];
     this.body.shift();
     head.x+=this.xdir;
     head.y+=this.ydir;
@@ -31,7 +35,9 @@ class Snake{
     }
   }
   grow(){
-    let head = this.body[this.len-1].copy();
+    let bodycopy = JSON.parse(JSON.stringify(this.body));
+    // console.log(bodycopy[0]);
+    let head = bodycopy[this.len-1];
     this.len++;
     this.body.push(createVector(head.x,head.y));
   }
