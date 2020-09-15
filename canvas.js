@@ -1,4 +1,4 @@
-var canvas,width,height,ctx;
+var canvas,width,height,ctx, myreq,count = 0,gameOver = false;
 
 
 function createCanvas(w,h){
@@ -47,8 +47,6 @@ function background(){
 setup();
 var frameRateVal = 5;
 
-var drawloop = setInterval(draw,1000/frameRateVal);
-draw();
 
 function floor(r){
     // console.log(r);
@@ -63,7 +61,8 @@ function random(){
     return Math.random()*(arguments[0]+1);
 }
 function noLoop(){
-    clearInterval(drawloop);
+    cancelAnimationFrame(myreq);
+    gameOver = true;
 }
 function scale(r){
     console.log(r);
@@ -140,7 +139,7 @@ function createFood(){
   food = createVector(floor(random(w)),floor(random(h)));
 }
 
-window.addEventListener('keyup',e=>keyPressed(e.key));
+window.addEventListener('keydown',e=>keyPressed(e.key));
 
 function keyPressed(keyCode){
     if(keyCode === "ArrowUp"){
@@ -159,23 +158,31 @@ function keyPressed(keyCode){
         snake.xdir = 0;
         snake.ydir = 1;
       }
-    clearInterval(drawloop);
-    drawloop = setInterval(draw,1000/frameRateVal);
+    cancelAnimationFrame(myreq);
+    count = 15;
+    draw();
 }
 
 function draw() {
 //   frameRate(5);
-  background(220);
-  snake.show();
-  snake.update();
-  if(snake.checkend()){
-    noLoop();
-    console.log("End");
-  }
-  if(snake.eat(food)){
-    createFood();
-  }
-  fill(255,0,0);
-  noStroke();
-  rect(food.x,food.y,1,1);
+    if(count == 15 && !gameOver){
+        background(220);
+    snake.show();
+    snake.update();
+    if(snake.checkend()){
+        noLoop();
+        console.log("End");
+    }
+    if(snake.eat(food)){
+        createFood();
+    }
+    fill(255,0,0);
+    noStroke();
+    rect(food.x,food.y,1,1);
+    count = 0;
+    }
+    count++;
+  myreq = requestAnimationFrame(draw);
 }
+
+draw();
